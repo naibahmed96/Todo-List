@@ -12,6 +12,12 @@ loadAllEventListeners();
 function loadAllEventListeners() {
   // Add Task Event
   form.addEventListener('submit', addTask);
+  // Remove list task
+  taskList.addEventListener('click', removeTask);
+  // Clear tasks event
+  clearTask.addEventListener('click', clearTasks);
+  // Filter event
+  filter.addEventListener('keyup', filtered);
 }
 
 function addTask(e) {
@@ -45,4 +51,43 @@ function addTask(e) {
   taskInput.value = '';
 
   e.preventDefault();
+}
+
+// removeTask 
+function removeTask(e) {
+  
+  if (e.target.parentElement.classList.contains('delete-item')) {
+    if (confirm('Are you sure?')) {
+      e.target.parentElement.parentElement.remove();
+    }
+  }
+  
+}
+
+// ClearTask function
+function clearTasks() {
+  // taskList.innerHTML = '';
+
+  // faster way
+  while (taskList.firstChild) {
+    taskList.removeChild(taskList.firstChild);
+  }
+}
+
+// function filtered
+function filtered(e) {
+  const text = e.target.value.toLowerCase();
+  
+
+  document.querySelectorAll('.collection-item').forEach(
+    task => {
+      const item = task.firstChild.textContent;
+      if (item.toLowerCase().indexOf(text) != -1) {
+        console.log(item.indexOf(text));
+        task.style.display = 'block';
+      } else {
+        task.style.display = 'none';
+      }
+    }
+  )
 }
