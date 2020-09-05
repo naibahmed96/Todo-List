@@ -77,7 +77,6 @@ function clearTasks() {
 // function filtered
 function filtered(e) {
   const text = e.target.value.toLowerCase();
-  
 
   document.querySelectorAll('.collection-item').forEach(
     task => {
