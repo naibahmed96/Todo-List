@@ -131,7 +131,6 @@ function clearTasks() {
     taskList.removeChild(taskList.firstChild);
   }
 
- 
 }
 
 // Store task
