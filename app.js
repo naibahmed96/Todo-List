@@ -10,6 +10,8 @@ loadAllEventListeners();
 
 // loadAllEventListeners function
 function loadAllEventListeners() {
+  // Dom load tasks
+  document.addEventListener('DOMContentLoaded', getTask);
   // Add Task Event
   form.addEventListener('submit', addTask);
   // Remove list task
@@ -18,6 +20,37 @@ function loadAllEventListeners() {
   clearTask.addEventListener('click', clearTasks);
   // Filter event
   filter.addEventListener('keyup', filtered);
+}
+// Get tasks
+function getTask(task) {
+  let tasks;
+
+  if (localStorage.getItem('tasks') === null) {
+    tasks = [];
+  } else {
+    tasks = JSON.parse(localStorage.getItem('tasks'));
+  }
+
+  tasks.forEach(task => {
+    // create li and class
+    const list = document.createElement('li');
+    list.className = 'collection-item';
+
+    // append textNode to list
+    list.appendChild(document.createTextNode(task));
+
+    // create link and icon
+    const link = document.createElement('a');
+    link.className = 'delete-item secondary-content';
+
+    link.innerHTML = "<i class='fa fa-remove'></i>";
+
+    // append link as child of list
+    list.appendChild(link);
+
+    // append list to parent ul
+    taskList.appendChild(list)
+  })
 }
 
 function addTask(e) {
@@ -47,6 +80,9 @@ function addTask(e) {
   // append li to .collection (taskList)
   taskList.appendChild(list);
 
+  // Store to Local storage
+  storeTaskToLocalStorage(taskInput.value);
+
   // clear taskInput
   taskInput.value = '';
 
@@ -72,6 +108,21 @@ function clearTasks() {
   while (taskList.firstChild) {
     taskList.removeChild(taskList.firstChild);
   }
+}
+
+// Store task
+function storeTaskToLocalStorage(task) {
+  let tasks;
+
+  if (localStorage.getItem('tasks') === null) {
+    tasks = [];
+  } else {
+    tasks = JSON.parse(localStorage.getItem('tasks'));
+  }
+
+  tasks.push(task);
+
+  localStorage.setItem('tasks', JSON.stringify(tasks));
 }
 
 // function filtered
